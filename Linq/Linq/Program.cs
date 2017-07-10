@@ -87,23 +87,22 @@ namespace Linq
             Console.WriteLine();
 
             var q7 = work
-
-                .Join(workers, wp => wp.WorkPlaceID, w => w.WorkPlaceID, (wp, works) => new
+                .GroupJoin(workers, wp => wp.WorkPlaceID, w => w.WorkPlaceID, (wp, w) => new
                 {
                     WorkName = wp.CompanyName,
-                    WorkersName = works.WorkPlaceID()
-                    workers.Select(w => w.WorkPlaceID == wp.WorkPlaceID)
+                    EmployeesName = w.Select(wo => wo.Name)
                 });
+
 
             foreach (var item in q7)
             {
-                Console.WriteLine(item.ToString());
-                
-                //Console.Write(item.WorkersName.ToString());
+                Console.WriteLine(item.WorkName);
+
+                foreach (var name in item.EmployeesName)
+                    Console.Write($"{name}, ");
+
+                Console.WriteLine();
             }
-
-
-
         }
     }
 }
